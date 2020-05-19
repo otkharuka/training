@@ -67,7 +67,7 @@ void State::setSize(const char* stageData, int size) {
 
 //imageID=id‚Ì‰æ‘œ‚ğ(x,y)‚É‚Í‚é
 void State::drawCell(int x, int y, unsigned id) const {
-	mImage->drawPictures(x, y, 32 * id, 0);
+	mImage->draw(x, y, 32 * id, 0);
 }
 
 

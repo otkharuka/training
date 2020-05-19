@@ -1,19 +1,17 @@
 #ifndef INCLUDED_FILE_H
 #define INCLUDED_FILE_H
 
-class File {
+class File{
 public:
-	File(const char* filename);
-	~File();
-	//メンバ変数を取得するだけの関数（変更しない）からうしろにconstをつける
-	char* setData() const;
-	int setSize() const;
-	unsigned getUnsigned(const int p) const;
-	
+   File( const char* filename );
+   ~File();
+   //メンバ変数を取得するだけの関数（変更しない）からうしろにconstをつける
+   int size() const;
+   char* data() const;
+   unsigned getUnsigned( int p) const;
 private:
-	char* mBuffer;
-	int mSize;
-	
+   int mSize;
+   char* mData;
 };
 
 #endif

@@ -1,35 +1,50 @@
-#include "GameLib/Framework.h"
 #include "Image.h"
 #include "File.h"
+
+#include "GameLib/Framework.h"
 using namespace GameLib;
 
-Image::Image(const char* filename) {
+Image::Image( const char* filename ) : 
+mWidth( 0 ),
+mHeight( 0 ),
+mData( 0 ){
+	File f( filename );
+	mHeight = f.getUnsigned( 12 );
+	mWidth = f.getUnsigned( 16 );
+	mData = new unsigned[ mWidth * mHeight ];
+	try {
 
-
-	//File* imageFile = 0;
-	//imageFile = new File(filename);
-	File imageFile(filename);
-
-
-	setSize(imageFile.getUnsigned(16), imageFile.getUnsigned(12));
-
-	if (imageFile.setData()) {
-		cout << "image file could not be read." << endl;
-		return;
+		if (!f.data()) {
+			throw "image file could not be read.";
+		}
+		if (f.size() != 128 + mHeight * mWidth * 4) {
+			throw "image file is broken.";
+		}
 	}
-	if (imageFile.setSize() != 128 + mHeight * mWidth * 4) {
-		cout << "image file is broken." << endl;
-		return;
-		//ここでreturnじゃなくてプログラム終了にしないと次のループでアクセス違反がでる
+	catch (char* str) {
+		cout << str << endl;
+
 	}
 
-	for (unsigned i = 0; i < mHeight * mWidth; i++) {
-		mData[i] = imageFile.getUnsigned(128 + i * 4);
+	for ( int i = 0; i < mWidth * mHeight; ++i ){
+		mData[ i ] = f.getUnsigned( 128 + i * 4 );
 	}
 }
 
-//画面上の座標(dstX, dstY)に、左上端の座標が(srcX, srcY)の画像をはる
-void Image::drawPictures(int dstX, int dstY, int srcX, int srcY) {
+Image::~Image(){
+	delete[] mData;
+	mData = 0;
+}
+
+int Image::width() const {
+	return mWidth;
+}
+
+int Image::height() const {
+	return mHeight;
+}
+
+void Image::draw(int dstX, int dstY, int srcX, int srcY) const{
 	unsigned* vram = Framework::instance().videoMemory(); //画素は4byteの負にならない数で表現
 	unsigned windowWidth = Framework::instance().width();
 
@@ -39,6 +54,3 @@ void Image::drawPictures(int dstX, int dstY, int srcX, int srcY) {
 		}
 	}
 }
-
-
-

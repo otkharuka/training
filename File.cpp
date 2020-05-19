@@ -2,46 +2,42 @@
 #include <fstream>
 using namespace std;
 
-File::File(const char* filename) {
+File::File( const char* filename ) : mSize( 0 ), mData( 0 ){
 	ifstream in(filename, ifstream::binary);
 	if (!in) {
-		mBuffer = 0;
+		mData = 0;
 		mSize = 0;
 	}
 	else {
 		in.seekg(0, ifstream::end);
 		mSize = static_cast< int >(in.tellg());
 		in.seekg(0, ifstream::beg);
-		mBuffer = new char[mSize];
-		in.read(mBuffer, mSize);
+		mData = new char[mSize];
+		in.read(mData, mSize);
 		//cout.write(*buffer, *size);
 	}
 }
 
-File::~File() {
-	delete[] mBuffer;
-	mBuffer = 0;
+File::~File(){
+	delete[] mData;
+	mData = 0;
 }
 
-char* File::setData() const { return mBuffer; }
-int File::setSize() const { return mSize; }
+int File::size() const {
+	return mSize;
+}
+
+char* File::data() const {
+	return mData;
+}
 
 //unsigned char‚É‚Í‚¢‚Á‚Ä‚¢‚éî•ñ‚ğunsigned int ‚É•ÏŠ·‚·‚é
-/*unsigned File::getUnsigned(const int p) const {
-	const unsigned char* up = reinterpret_cast<const unsigned char*> (&mBuffer[p]);
+unsigned File::getUnsigned(const int p) const {
+	const unsigned char* up = reinterpret_cast<const unsigned char*> (&mData[p]);
 	unsigned ret = 0;
 	ret |= (up[0] << 0);
 	ret |= (up[1] << 8);
 	ret |= (up[2] << 16);
 	ret |= (up[3] << 24);
 	return ret;
-}*/
-unsigned File::getUnsigned(int p) const {
-	const unsigned char* up;
-	up = reinterpret_cast< const unsigned char* >(mBuffer);
-	unsigned r = up[p];
-	r |= up[p + 1] << 8;
-	r |= up[p + 2] << 16;
-	r |= up[p + 3] << 24;
-	return r;
 }

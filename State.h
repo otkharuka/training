@@ -13,7 +13,7 @@ public:
 	void update(char input);//ステージの各マスの状態の後進
 	void draw() const;//ステージの各マスの状態を読みとって画像をはる
 	bool hasCleared() const;//クリアしたかどうかのチェック
-	
+
 private:
 	enum Object {
 		OBJ_SPACE,
@@ -33,7 +33,7 @@ private:
 		IMAGE_ID_SPACE,
 	};
 	void setSize(const char* stageData, int size);//ステージのサイズをstageDataから読み取る
-	//State::draw()からしかよばれないためprivate
+												  //State::draw()からしかよばれないためprivate
 	void drawCell(int x, int y, unsigned id) const;
 	int mWidth;
 	int mHeight;
