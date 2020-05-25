@@ -1,33 +1,50 @@
-#ifndef INCLUDED_PARENT_H
-#define INCLUDED_PARENT_H
+#ifndef INCLUDED_GAME_PARENT_H
+#define INCLUDED_GAME_PARENT_H
 
-class Select;
-class Title;
+class State;
 
-class Parent {
-public:
-	Parent();
-	~Parent();
+namespace Sequence {
+	class Parent;
+	namespace Game {
+		class Load;
+		class Menu;
+		class Play;
+		class Clear;
 
-	//parent下のシーケンス遷移
-	enum SeqId {
-		SEQ_TITLE,
-		SEQ_SELECT,
-		SEQ_GAME,
+		class Parent {
+		public:
+			Parent();
+			~Parent();
 
-		SEQ_NONE,
-	};
-	void update();
-	void moveTo(SeqId id);
-	void setStageId(int id);
-private:
+			//parent下のシーケンス遷移
+			enum SeqId {
+				SEQ_SELECT,
+				SEQ_TITLE,
 
-	Select * mSelect;
-	Title* mTitle;
+				SEQ_LOAD,
+				SEQ_MENU,
+				SEQ_PLAY,
+				SEQ_CLEAR,
 
-	SeqId mNext;
-	int mStageId;
+				SEQ_NONE,
+			};
+			void update(Sequence::Parent* p);
+			void moveTo(SeqId id);
+			void setStageId(int id);
+			State* state();
+		private:
 
-};
+			Load * mLoad;
+			Menu* mMenu;
+			Play* mPlay;
+			Clear* mClear;
 
+			State* mState;
+
+			SeqId mNext;
+			int mStageId;
+
+		};
+	}
+}
 #endif
