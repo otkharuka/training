@@ -1,8 +1,8 @@
 #pragma once
-//ƒXƒe[ƒW‚ÌŠeƒ}ƒX‚Ìó‘Ô‚ğŠi”[‚·‚é
+//ã‚¹ãƒ†ãƒ¼ã‚¸ã®å„ãƒã‚¹ã®çŠ¶æ…‹ã‚’æ ¼ç´ã™ã‚‹
 template< class T > class Array2D {
 public:
-	Array2D() : mArray(0) {}//ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚ÅmArray=0‚Æ‰Šúİ’è‚·‚é
+	Array2D() : mArray(0) {}//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã§mArray=0ã¨åˆæœŸè¨­å®šã™ã‚‹
 	~Array2D() {
 		delete[] mArray;
 		mArray = 0;
@@ -12,7 +12,7 @@ public:
 		mSize1 = size1;
 		mArray = new T[size0 * size1];
 	}
-	//Array2D(1, 3)‚Ì‘‚«•û‚ÅmArray‚ÉƒAƒNƒZƒX‚Å‚«‚é
+	//Array2D(1, 3)ã®æ›¸ãæ–¹ã§mArrayã«ã‚¢ã‚¯ã‚»ã‚¹ã§ãã‚‹
 	T& operator()(int index0, int index1) {
 		return mArray[index1 * mSize0 + index0];
 	}
