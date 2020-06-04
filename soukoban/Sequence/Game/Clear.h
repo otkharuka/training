@@ -13,9 +13,10 @@ namespace Game {
 	public:
 		Clear();
 		~Clear();
-		void update(Parent* p);
+		Child* update(Parent* p);
 	private:
 		Image * mImage;
+		
 
 	};
 }

@@ -13,7 +13,7 @@ namespace Sequence {
 		public:
 			Menu();
 			~Menu();
-			void update(Parent* p);
+			Child* update(Parent* p);
 		private:
 			Image * mImage;
 

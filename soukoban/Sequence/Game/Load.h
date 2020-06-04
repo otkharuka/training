@@ -13,7 +13,7 @@ namespace Sequence {
 		public:
 			Load();
 			~Load();
-			void update(Parent* p);
+			Child* update(Parent* p);
 		private:
 			Image* mImage;
 			bool mStart;

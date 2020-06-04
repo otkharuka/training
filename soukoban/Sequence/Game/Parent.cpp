@@ -1,14 +1,11 @@
 #include "GameLib/GameLib.h"
 #include "Sequence/Game/Parent.h"
 #include "Sequence/Game/Load.h"
-#include "Sequence/Game/Clear.h"
-#include "Sequence/Game/Menu.h"
-#include "Sequence/Game/Play.h"
-#include "Sequence/Parent.h"
+#include "Sequence/Select.h"
+#include "Sequence/Title.h"
+
 #include "File.h"
 #include "State.h"
-
-
 
 
 namespace Sequence {
@@ -27,47 +24,28 @@ namespace Sequence {
 			delete mChild; mChild= 0;
 		}
 
-		void Parent::update(Sequence::Parent* p) {
-	
-			if (mChild) {
-				mChild->update(this);
+		Sequence::Child* Parent::update(Sequence::Parent* p) {
+			Sequence::Child* next = this;
+			Sequence::Game::Child* nextChild = mChild->update(this);
+			if (nextChild != mChild) {
+				delete mChild;
+				mChild = 0;
+				mChild = nextChild;
 			}
+			nextChild = 0;
 
 			switch (mNext) {
 
-			case SEQ_LOAD:
-				delete mChild; mChild= 0;
-				mChild = new Load();
-				break;
-
-			case SEQ_PLAY:
-				delete mChild; mChild = 0;
-				mChild = new Play();
-				break;
-
-			case SEQ_CLEAR:
-				delete mChild; mChild = 0;
-				mChild = new Clear();
-				break;
-
-			case SEQ_MENU:
-				delete mChild; mChild = 0;
-				mChild = new Menu();
-				break;
-
-	
 			case SEQ_SELECT:
-				p->moveTo(Sequence::Parent::SEQ_SELECT);
+				next = new Select();
 				break;
 
 			case SEQ_TITLE:
-				p->moveTo(Sequence::Parent::SEQ_TITLE);
+				next = new Title();
 				break;
-
-			
 			}
-
 			mNext = SEQ_NONE;
+			return next;
 		}
 
 		void Parent::moveTo(SeqId id) {

@@ -7,7 +7,7 @@ namespace Sequence {
 
 		class Child {
 		public:
-			virtual void update(Parent*) = 0;
+			virtual Sequence::Game::Child* update(Parent*) = 0;
 			virtual ~Child() {};
 		};
 	}

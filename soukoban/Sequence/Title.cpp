@@ -3,9 +3,10 @@ using namespace GameLib;
 
 #include "GameLib/Framework.h"
 
-#include "Sequence/Title.h"
-#include "Image.h"
 #include "Sequence/Parent.h"
+#include "Sequence/Title.h"
+#include "Sequence/Select.h"
+#include "Image.h"
 
 namespace Sequence {
 	Title::Title() {
@@ -17,13 +18,14 @@ namespace Sequence {
 		mImage = 0;
 	}
 
-	void Title::update(Parent* p) {
+	Child* Title::update(Parent* p) {
+		Child* next = this;
 
 		//スペースキーでセレクト画面へ
 		if (Framework::instance().isKeyOn(' ')) {
-			//mNextを指定
-			p->moveTo(Parent::SeqId::SEQ_SELECT);
+			next = new Select();
 		}
 		mImage->draw(0, 0, 0, 0, mImage->width(), mImage->height());
+		return next;
 	}
 }

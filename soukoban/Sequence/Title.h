@@ -12,7 +12,7 @@ namespace Sequence {
 	public:
 		Title();
 		~Title();
-		void update(Parent* p);
+		Child* update(Parent* p);
 	private:
 		Image * mImage;
 

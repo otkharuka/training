@@ -3,9 +3,10 @@ using namespace GameLib;
 
 #include "GameLib/Framework.h"
 
-#include "Select.h"
+#include "Sequence/Parent.h"
+#include "Sequence/Select.h"
+#include "Sequence/Game/Parent.h"
 #include "Image.h"
-#include "Parent.h"
 
 namespace Sequence {
 	Select::Select() {
@@ -17,13 +18,15 @@ namespace Sequence {
 		mImage = 0;
 	}
 
-	void Select::update(Parent* p) {
-
+	Child* Select::update(Parent* p) {
+		Child* next = this;
 		if (Framework::instance().isKeyOn('1')) {
+			next = new Game::Parent();
 			//mNext‚ğw’è
 			p->moveTo(Parent::SeqId::SEQ_GAME);
 		}
 
 		mImage->draw(0, 0, 0, 0, mImage->width(), mImage->height());
+		return next;
 	}
 }

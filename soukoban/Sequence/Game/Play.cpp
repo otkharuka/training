@@ -1,8 +1,11 @@
 #include "GameLib/GameLib.h"
 #include "GameLib/Framework.h"
 
-#include "Sequence/Game/Play.h"
 #include "Sequence/Game/Parent.h"
+#include "Sequence/Game/Play.h"
+#include "Sequence/Game/Clear.h"
+#include "Sequence/Game/Menu.h"
+
 #include "State.h"
 #include "Image.h"
 using namespace GameLib;
@@ -18,7 +21,8 @@ namespace Sequence {
 		Play::~Play() {
 		}
 
-		void Play::update(Parent* p) {
+		Child* Play::update(Parent* p) {
+			Child* next = this;
 			
 			State* state = p->state();
 			
@@ -27,12 +31,12 @@ namespace Sequence {
 			//メインループ
 			//クリアチェック
 			if (state->hasCleared()) {
-				p->moveTo(Parent::SEQ_CLEAR);
+				next = new Clear();
 			}
 			Framework f = Framework::instance();
 			//menuボタンがおされていないかチェック
 			if (f.isKeyOn('m')) {
-				p->moveTo(Parent::SEQ_MENU);
+				next = new Menu();
 			}
 			else {
 				int dx = 0;
@@ -55,6 +59,7 @@ namespace Sequence {
 			
 			//描画
 			state->draw();
+			return next;
 		}
 	}
 }

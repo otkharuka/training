@@ -27,7 +27,7 @@ namespace Sequence {
 
 				SEQ_NONE,
 			};
-			void update(Sequence::Parent* p);
+			Sequence::Child* update(Sequence::Parent* p);
 			void moveTo(SeqId id);
 			void setStageId(int id);
 			State* state();

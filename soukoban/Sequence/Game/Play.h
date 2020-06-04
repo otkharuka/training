@@ -14,7 +14,7 @@ namespace Sequence {
 		public:
 			Play();
 			~Play();
-			void update(Parent* p);
+			Child* update(Parent* p);
 		private:
 			Image * mImage;
 

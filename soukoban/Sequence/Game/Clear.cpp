@@ -22,8 +22,10 @@ namespace Sequence {
 			mImage = 0;
 		}
 
-		void Clear::update(Parent* p) {
+		Child* Clear::update(Parent* p) {
 			mImage->draw(0, 0, 0, 0, mImage->width(), mImage->height());
+			
+			return this;
 		}
 	}
 }

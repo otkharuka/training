@@ -12,7 +12,7 @@ namespace Sequence {
 	public:
 		Select();
 		~Select();
-		void update(Parent* p);
+		Child* update(Parent* p);
 	private:
 		Image * mImage;
 
