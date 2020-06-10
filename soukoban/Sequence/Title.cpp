@@ -7,15 +7,19 @@ using namespace GameLib;
 #include "Sequence/Title.h"
 #include "Sequence/Select.h"
 #include "Image.h"
+#include "../../../Chapter10/StringRenderer.h"
 
 namespace Sequence {
 	Title::Title() {
-		mImage = new Image("data/image/title.dds");
+		//mImage = new Image("data/image/title.dds");
+		mString = new StringRenderer("data/image/font.dds");
 	}
 
 	Title::~Title() {
-		delete mImage;
-		mImage = 0;
+		//delete mImage;
+		//mImage = 0;
+		delete mString;
+		mString = 0;
 	}
 
 	Child* Title::update(Parent* p) {
@@ -25,7 +29,10 @@ namespace Sequence {
 		if (Framework::instance().isKeyOn(' ')) {
 			next = new Select();
 		}
-		mImage->draw(0, 0, 0, 0, mImage->width(), mImage->height());
+		//mImage->draw(0, 0, 0, 0, mImage->width(), mImage->height());
+		mString->draw(15, 5, "SOUKOBAN");
+		mString->draw(12, 7, "PRESS SPACEKEY");
+
 		return next;
 	}
 }

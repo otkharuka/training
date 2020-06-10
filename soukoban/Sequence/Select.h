@@ -3,7 +3,8 @@
 
 #include "Sequence/Child.h"
 
-class Image;
+//class Image;
+class StringRenderer;
 
 namespace Sequence {
 	class Parent;
@@ -14,7 +15,8 @@ namespace Sequence {
 		~Select();
 		Child* update(Parent* p);
 	private:
-		Image * mImage;
+		//Image * mImage;
+		StringRenderer* mString;
 
 	};
 }
