@@ -5,9 +5,11 @@ class Image;
 
 class StringRenderer {
 public:
-	void draw(int x, int y, const char* str);
 	static void create(const char* FontImageFilename);
 	static void destroy();
+	void draw(int x, int y, const char* str);
+	void init();
+
 
 	static StringRenderer* instance();
 

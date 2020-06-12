@@ -8,7 +8,6 @@ StringRenderer* StringRenderer::mInstance = 0;
 
 StringRenderer::StringRenderer(const char* filename) {
 	mFontImage = new Image(filename);
-	mFontImage->init();
 }
 
 StringRenderer::~StringRenderer() {
@@ -56,5 +55,9 @@ void StringRenderer::draw(int row, int column, const char* str) {
 
 
 	}
+}
+
+void StringRenderer::init() {
+	mFontImage->init();
 }
 

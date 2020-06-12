@@ -21,6 +21,7 @@ namespace Sequence {
 		//mImage = 0;
 		//delete mString;
 		//mString = 0;
+		StringRenderer::instance()->init();
 	}
 
 	Child* Title::update(Parent* p) {

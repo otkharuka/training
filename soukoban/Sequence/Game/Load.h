@@ -3,7 +3,7 @@
 
 #include "Sequence/Game/Child.h"
 
-class Image;
+//class Image;
 
 namespace Sequence {
 	namespace Game {
@@ -15,7 +15,7 @@ namespace Sequence {
 			~Load();
 			Child* update(Parent* p);
 		private:
-			Image* mImage;
+			//Image* mImage;
 			bool mStart;
 			int mCount;
 
