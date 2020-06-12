@@ -4,7 +4,7 @@
 #include "Sequence/Child.h"
 
 //class Image;
-class StringRenderer;
+//class StringRenderer;
 
 namespace Sequence {
 	class Parent;
@@ -16,7 +16,7 @@ namespace Sequence {
 		Child* update(Parent* p);
 	private:
 		//Image* mImage;
-		StringRenderer* mString;
+		//StringRenderer* mString;
 	};
 }
 

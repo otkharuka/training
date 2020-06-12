@@ -12,14 +12,15 @@ using namespace GameLib;
 namespace Sequence {
 	Title::Title() {
 		//mImage = new Image("data/image/title.dds");
-		mString = new StringRenderer("data/image/font.dds");
-	}
+		//mString = new StringRenderer("data/image/font.dds");
+		StringRenderer::create("data/image/font.dds");
+	}	
 
 	Title::~Title() {
 		//delete mImage;
 		//mImage = 0;
-		delete mString;
-		mString = 0;
+		//delete mString;
+		//mString = 0;
 	}
 
 	Child* Title::update(Parent* p) {
@@ -30,8 +31,8 @@ namespace Sequence {
 			next = new Select();
 		}
 		//mImage->draw(0, 0, 0, 0, mImage->width(), mImage->height());
-		mString->draw(15, 5, "SOUKOBAN");
-		mString->draw(12, 7, "PRESS SPACEKEY");
+		StringRenderer::instance()->draw(15, 5, "SOUKOBAN");
+		StringRenderer::instance()->draw(12, 7, "PRESS SPACEKEY");
 
 		return next;
 	}

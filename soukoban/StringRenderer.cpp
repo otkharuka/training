@@ -4,13 +4,31 @@ using namespace GameLib;
 #include "StringRenderer.h"
 #include "Image.h"
 
+StringRenderer* StringRenderer::mInstance = 0;
+
 StringRenderer::StringRenderer(const char* filename) {
 	mFontImage = new Image(filename);
+	mFontImage->init();
 }
 
 StringRenderer::~StringRenderer() {
 	delete mFontImage;
 	mFontImage = 0;
+}
+
+void StringRenderer::create(const char* filename) {
+	if (!mInstance) {
+		mInstance = new StringRenderer(filename);
+	}
+}
+
+void StringRenderer::destroy() {
+	delete mInstance;
+	mInstance = 0;
+}
+
+StringRenderer* StringRenderer::instance() {
+	return mInstance;
 }
 
 

@@ -5,12 +5,19 @@ class Image;
 
 class StringRenderer {
 public:
-	StringRenderer(const char* FontImageFilename);
-	~StringRenderer();
 	void draw(int x, int y, const char* str);
+	static void create(const char* FontImageFilename);
+	static void destroy();
+
+	static StringRenderer* instance();
 
 private:
+	StringRenderer(const char* FontImageFilename);
+	StringRenderer(const StringRenderer&);
+	~StringRenderer();
+
 	Image* mFontImage;
+	static StringRenderer* mInstance;
 };
 
 

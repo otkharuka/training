@@ -13,15 +13,14 @@ using namespace GameLib;
 namespace Sequence {
 	Select::Select() {
 		//mImage = new Image("data/image/stageSelect.dds");
-		mString = new StringRenderer("data/image/font.dds");
-		
+		//mString = new StringRenderer("data/image/font.dds");
 	}
 
 	Select::~Select() {
 		//delete mImage;
 		//mImage = 0;
-		delete mString;
-		mString = 0;
+		//delete mString;
+		//mString = 0;
 	}
 
 	Child* Select::update(Parent* p) {
@@ -33,8 +32,8 @@ namespace Sequence {
 		}
 
 		//mImage->draw(0, 0, 0, 0, mImage->width(), mImage->height());
-		mString->draw(12, 7, "Select Stage");
-		mString->draw(12, 8, "Press 1 ~ 9");
+		StringRenderer::instance()->draw(14, 5, "Select Stage");
+		StringRenderer::instance()->draw(14, 7, "Press 1 ~ 9");
 
 
 		return next;
