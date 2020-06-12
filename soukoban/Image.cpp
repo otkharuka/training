@@ -12,28 +12,13 @@ mData( 0 ){
 	mHeight = f.getUnsigned( 12 );
 	mWidth = f.getUnsigned( 16 );
 	mData = new unsigned[ mWidth * mHeight ];
-	try {
-
-		if (!f.data()) {
-			throw "image file could not be read.";
-		}
-		if (f.size() != 128 + mHeight * mWidth * 4) {
-			throw "image file is broken.";
-		}
-	}
-	catch (char* str) {
-		cout << str << endl;
-
-	}
-
 	for ( int i = 0; i < mWidth * mHeight; ++i ){
 		mData[ i ] = f.getUnsigned( 128 + i * 4 );
 	}
 }
 
 Image::~Image(){
-	delete[] mData;
-	mData = 0;
+	SAFE_DELETE( mData );
 }
 
 int Image::width() const {
@@ -44,13 +29,73 @@ int Image::height() const {
 	return mHeight;
 }
 
-void Image::draw(int dstX, int dstY, int srcX, int srcY) const{
-	unsigned* vram = Framework::instance().videoMemory(); //画素は4byteの負にならない数で表現
-	unsigned windowWidth = Framework::instance().width();
+namespace{ //名前なし名前空間
 
-	for (unsigned y = 0; y < 32; y++) {
-		for (unsigned x = 0; x < 32; x++) {
-			vram[(dstX + x) + (dstY + y) * windowWidth] = mData[(srcX + x) + (srcY + y) * mWidth]; //vramにいれてupdate()終了後に描画される
+unsigned blend( unsigned src, unsigned dst ){
+	unsigned srcA = ( src & 0xff000000 ) >> 24;
+	unsigned srcR = src & 0xff0000;
+	unsigned srcG = src & 0x00ff00;
+	unsigned srcB = src & 0x0000ff;
+	unsigned dstR = dst & 0xff0000;
+	unsigned dstG = dst & 0x00ff00;
+	unsigned dstB = dst & 0x0000ff;
+	unsigned r = ( srcR - dstR ) * srcA / 255 + dstR;
+	unsigned g = ( srcG - dstG ) * srcA / 255 + dstG;
+	unsigned b = ( srcB - dstB ) * srcA / 255 + dstB;
+	return ( r & 0xff0000 ) | ( g & 0x00ff00 ) | b;
+}
+
+}
+
+//アルファブレンド付き
+void Image::draw(
+int dstX, 
+int dstY, 
+int srcX, 
+int srcY, 
+int width, 
+int height ) const {
+	unsigned* vram = Framework::instance().videoMemory();
+	int windowWidth = Framework::instance().width();
+	for ( int y = 0; y < height; ++y ){
+		for ( int x = 0; x < width; ++x ){
+			unsigned src = mData[ ( y + srcY ) * mWidth + ( x + srcX ) ];
+			unsigned* dst = &vram[ ( y + dstY ) * windowWidth + ( x + dstX ) ];
+			*dst = blend( src, *dst );
 		}
+	}
+}
+
+void Image::draw() const {
+	draw( 0, 0, 0, 0, mWidth, mHeight );
+}
+
+//色指定描画
+void Image::drawWithFixedColor(
+int dstX, 
+int dstY, 
+int srcX, 
+int srcY, 
+int width, 
+int height,
+unsigned color ) const {
+	unsigned* vram = Framework::instance().videoMemory();
+	int windowWidth = Framework::instance().width();
+	unsigned srcR = color & 0xff0000;
+	unsigned srcG = color & 0x00ff00;
+	unsigned srcB = color & 0x0000ff;
+	for ( int y = 0; y < height; ++y ){
+		for ( int x = 0; x < width; ++x ){
+			unsigned src = mData[ ( y + srcY ) * mWidth + ( x + srcX ) ];
+			unsigned* dst = &vram[ ( y + dstY ) * windowWidth + ( x + dstX ) ];
+			unsigned srcA = ( src & 0xff000000 ) >> 24;
+			unsigned dstR = *dst & 0xff0000;
+			unsigned dstG = *dst & 0x00ff00;
+			unsigned dstB = *dst & 0x0000ff;
+			unsigned r = ( srcR - dstR ) * srcA / 255 + dstR;
+			unsigned g = ( srcG - dstG ) * srcA / 255 + dstG;
+			unsigned b = ( srcB - dstB ) * srcA / 255 + dstB;
+			*dst = ( r & 0xff0000 ) | ( g & 0x00ff00 ) | b;
+ 		}
 	}
 }
